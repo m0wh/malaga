@@ -1,0 +1,45 @@
+{
+  "spaceship": {
+    "die": [
+      {"name":"boom_00", "frame": {"x": 0 , "y": 0, "width": 32, "height": 32}},
+      {"name":"boom_01", "frame": {"x": 32, "y": 0, "width": 32, "height": 32}},
+      {"name":"boom_02", "frame": {"x": 64, "y": 0, "width": 32, "height": 32}},
+      {"name":"boom_03", "frame": {"x": 96, "y": 0, "width": 32, "height": 32}}
+    ],
+    "idle": [
+      {"name":"spaceship_idle_00", "frame": {"x": 96, "y": 32, "width": 16, "height": 16}},
+      {"name":"spaceship_idle_01", "frame": {"x": 112, "y": 32, "width": 16, "height": 16}}
+    ]
+  },
+  "enemies": {
+    "die": [
+      {"name":"boom_00", "frame": {"x": 0 , "y": 224, "width": 32, "height": 32}},
+      {"name":"boom_01", "frame": {"x": 32, "y": 224, "width": 32, "height": 32}},
+      {"name":"boom_02", "frame": {"x": 64, "y": 224, "width": 32, "height": 32}},
+      {"name":"boom_03", "frame": {"x": 96, "y": 224, "width": 32, "height": 32}},
+      {"name":"boom_03", "frame": {"x": 128, "y": 224, "width": 32, "height": 32}}
+    ],
+    "mantis": {
+      "idle": [
+        {"name":"mantis_basic_00", "frame": {"x": 96, "y": 48, "width": 16, "height": 16}},
+        {"name":"mantis_basic_01", "frame": {"x": 112, "y": 48, "width": 16, "height": 16}}
+      ],
+      "idle_hurt": [
+        {"name":"mantis_hurt_00", "frame": {"x": 96, "y": 64, "width": 16, "height": 16}},
+        {"name":"mantis_hurt_01", "frame": {"x": 112, "y": 64, "width": 16, "height": 16}}
+      ]
+    },
+    "butterfly": {
+      "idle": [
+        {"name":"butterfly_basic_00", "frame": {"x": 96, "y": 80, "width": 16, "height": 16}},
+        {"name":"butterfly_basic_01", "frame": {"x": 112, "y": 80, "width": 16, "height": 16}}
+      ]
+    },
+    "bee": {
+      "idle": [
+        {"name":"bee_basic_00", "frame": {"x": 96, "y": 96, "width": 16, "height": 16}},
+        {"name":"bee_basic_01", "frame": {"x": 112, "y": 96, "width": 16, "height": 16}}
+      ]
+    }
+  }
+}
