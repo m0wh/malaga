@@ -41,5 +41,13 @@
         {"name":"bee_basic_01", "frame": {"x": 112, "y": 96, "width": 16, "height": 16}}
       ]
     }
+  },
+  "missile": {
+    "bad": [
+      {"name":"bad_missile_00", "frame": {"x": 0 , "y": 208, "width": 16, "height": 16}}
+    ],
+    "good": [
+      {"name":"good_missile_00", "frame": {"x": 16 , "y": 208, "width": 16, "height": 16}}
+    ]
   }
 }
