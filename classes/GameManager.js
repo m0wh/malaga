@@ -42,7 +42,7 @@ class GameManager {
     setTimeout(() => {
       this.scoresArray.push(this.score);
       localStorage.setItem("scores", JSON.stringify(this.scoresArray));
-      location.replace(`/?ls=${this.score}`);
+      location.replace(`index.html?ls=${this.score}`);
     }, immediate ? 0 : 1500);
   }
 }
