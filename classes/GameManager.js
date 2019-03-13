@@ -2,6 +2,7 @@ class GameManager {
   constructor() {
     this.score = 0;
     this.scoresArray = localStorage.getItem("scores") ? JSON.parse(localStorage.getItem("scores")) : [];
+    this.canLoseByCrossing = false;
   }
 
   addScore(inc) {
@@ -9,6 +10,13 @@ class GameManager {
     enemySpawnRate += DIFFICULTY.spawnRate.speed;
     enemySpeed += DIFFICULTY.speed.speed;
     enemyFireRate += DIFFICULTY.fireRate.speed;
+    if (inc > 0 && !this.canLoseByCrossing) {
+      this.canLoseByCrossing = true;
+    }
+
+    if (this.canLoseByCrossing && this.score <= 0) {
+      this.endGame(true);
+    }
   }
 
   updateHUD() {
@@ -28,11 +36,11 @@ class GameManager {
     
   }
 
-  endGame() {
+  endGame(immediate = false) {
     setTimeout(() => {
       this.scoresArray.push(this.score);
       localStorage.setItem("scores", JSON.stringify(this.scoresArray));
       location.replace(`/?ls=${this.score}`);
-    }, 1500);
+    }, immediate ? 0 : 1500);
   }
 }

@@ -34,6 +34,12 @@ class Enemy {
         gameManager.addScore(1);
         missile.remove();
       });
+
+      if (this.sprite.position.y > height + 8) {
+        this.isAlive = false;
+        this.sprite.remove();
+        gameManager.addScore(-5);
+      }
     }
 
 
