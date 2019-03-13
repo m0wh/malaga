@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Galaga</title>
+  <title>Galaga — How To Play</title>
   <link rel="stylesheet" href="assets/fonts/fonts.css">
   <style>
     body {
@@ -27,34 +27,10 @@
       flex-direction: column;
       background-color: rgb(240, 240, 240);
     }
-
-    .lastscore {
-      text-align: center;
-    }
-
-    .lastscore h1 {
-      font-size: 200px;
-      margin: 0;
-      font-weight: 900;
-    }
-
-    a.play {
-      border: 2px solid #FF001E;
-      color: #FF001E;
-      padding: 22px 32px 16px;
-      margin: 40px;
-      border-radius: 1000px;
-      text-decoration: none;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 30px;
-      vertical-align: 30px;
-      transition: 1s cubic-bezier(.07,.95,0,1);
-    }
-
-    a.play:hover {
-      background-color: #FF001E;
-      color: rgb(240, 240, 240);
+    
+    p {
+      width: 500px;
+      margin: 5px auto;
     }
 
     a.howto {
@@ -64,18 +40,43 @@
       font-size: 18px;
       vertical-align: 30px;
       transition: 1s cubic-bezier(.07,.95,0,1);
+      margin: 35px;
     }
 
     a.howto:hover {
       color: #4200FF;
     }
+
+    table {
+      width: 200px;
+      margin: 5px auto;
+    }
+
+    table th {
+      text-align: right;
+    }
+
+    th, td {
+      padding: 10px;
+      background-color: #eee;
+    }
+
   </style>
 </head>
 <body>
   <div class="screen">
-    <div class="lastscore"></div>
-    <a class="play" href="game.html">Play</a>
-    <a class="howto" href="howtoplay.html">Instructions</a>
+    <h1>Instructions</h1>
+    <p>This game is neither Galaga nor Space Invaders.</p>
+    <p>The goal is to get the highest score in an endless game. You gain one point per atomized insect.</p>
+    <p>Warning: insects may seem slow and stupid at first, but do not get used to it because as soon as one of them exceeds your position, you instantly lose 5 points.</p>
+    <p>If you lose all your points this way, the game ends with a score of 0. At your own risks!</p>
+    <h2>Controls</h2>
+    <table>
+      <tr><th>Q</th><td>Move Left</td></tr>
+      <tr><th>D</th><td>Move Right</td></tr>
+      <tr><th>SPACE</th><td>Fire</td></tr>
+    </table>
+    <a class="howto" href="index.html">Back</a>
   </div>
 
   <script>

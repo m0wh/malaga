@@ -13,7 +13,6 @@ class GameManager {
     if (inc > 0 && !this.canLoseByCrossing) {
       this.canLoseByCrossing = true;
     }
-
     if (this.canLoseByCrossing && this.score <= 0) {
       this.endGame(true);
     }
@@ -29,6 +28,9 @@ class GameManager {
     textSize(16);
     if (this.score > Math.max(...this.scoresArray)) {
       text("New Highscore!", width - 30, 80);
+      document.title = this.score + " - New Highscore! — Galaga";
+    } else {
+      document.title = this.score + " — Galaga";
     }
   }
 

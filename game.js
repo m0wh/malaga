@@ -88,7 +88,7 @@ function setup() {
 
 function draw() {
   if (ASSETS_STYLE !== "color") {
-    background(255, 255, 255, 180);
+    background(240, 240, 240, 160);
   } else {
     background(0, 0, 0, 180);
   }
