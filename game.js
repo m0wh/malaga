@@ -1,87 +1,111 @@
-let spaceship;
-let spaceship_animations, missile_animation;
-let goodMissiles, badMissiles;
-let playerIsAlive;
+let spaceship,
+    spaceship_animations,
+    missile_animations,
+    goodMissiles,
+    badMissiles,
+    enemyObjects = [],
+    enemies,
+    sounds,
+    enemySpawnRate,
+    enemyFireRate,
+    enemySpeed,
+    gameManager;
 
 let controls = {
   xAxis: 0,
   yAxis: 0
 }
 
+let font;
+
 const SCALE = 2;
 const SPEED = 70;
 const BRAKING = 3;
-const ASSETS_STYLE = "color";
+const ASSETS_STYLE = "test3";
+const MAX_ENEMIES = 100;
+const DIFFICULTY = {
+  spawnRate: {
+    start: 1,  // number of enemies per second
+    speed: 0.01 // increment when an enemy dies
+  },
+  speed: {
+    start: 0.1, // enemy speed
+    speed: 0.01 // increment when an enemy dies
+  },
+  fireRate: {
+    start: 0.2, // number of missiles per second per enemy
+    speed: 0.01 // increment when an enemy dies
+  }
+}
 
 function preload() {
-  // specify width and height of each frame and number of frames
+  font = loadFont('assets/fonts/MaisonNeue-Bold.ttf');
   loadJSON("./assets/spritemap.json", animations => {
-    
     spaceship_animations = {
       idle: loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.spaceship.idle)),
       die:  loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.spaceship.die))
+    };  
+
+    missile_animations = {
+      bad: loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.missile.bad)),
+      good: loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.missile.good))
     };
 
-    bad_missile_animation = loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.missile.bad));
-    good_missile_animation = loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.missile.good));
+    enemy_animations = {
+      idle: [
+        loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.enemies.bee.idle)),
+        loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.enemies.mantis.idle)),
+        loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.enemies.butterfly.idle)),
+      ],
+      die: loadAnimation(loadSpriteSheet(`./assets/spritesheet_${ASSETS_STYLE}.png`, animations.enemies.die))
+    };
 
     spaceship_animations.die.looping = false;
+    enemy_animations.die.looping = false;
   });
-  
+
+  sounds = {
+    missile: loadSound("./assets/soundfx/laser_default.wav"),
+    spaceship_die: loadSound("./assets/soundfx/fighter_destroyed.wav"),
+    enemy_die: loadSound("./assets/soundfx/galaga_destroyed.wav"),
+  }
 }
 
 function setup() {
   createCanvas(800, 600);
-  
-  spaceship = createSprite(width/2, height - (8 * SCALE + 10) , 16, 16);
-  spaceship.setCollider("circle", 0, 0, 8)
-  spaceship.addAnimation("idle", spaceship_animations.idle);
-  spaceship.addAnimation("die", spaceship_animations.die);
-  spaceship.limitSpeed(SPEED);
-  spaceship.scale = SCALE;
-  spaceship.friction = 0.1;
+
+  spaceship = new Spaceship();
   badMissiles = new Group();
   goodMissiles = new Group();
+  enemies = new Group();
+  gameManager = new GameManager();
+  enemySpawnRate = DIFFICULTY.spawnRate.start;
+  enemyFireRate = DIFFICULTY.fireRate.start;
+  enemySpeed = DIFFICULTY.speed.start;
   noSmooth();
   frameRate(30);
-  playerIsAlive = true
 }
 
 function draw() {
-  // clear();
-  background(0, 0, 0, 180);
+  if (ASSETS_STYLE !== "color") {
+    background(255, 255, 255, 180);
+  } else {
+    background(0, 0, 0, 180);
+  }
+
+  if (Math.random() * 30 > 30 - enemySpawnRate && enemyObjects.filter(e => e.isAlive).length < MAX_ENEMIES) {
+    console.log(enemyObjects.filter(e => e.isAlive).length);
+    enemyObjects.push(new Enemy({x: Math.random() * width, y: -50}, enemySpeed, enemyFireRate));
+  }
   
   handleControls();
-  spaceshipMovement();
-
-  if (Math.random() > 0.95) {
-    new Missile({x: Math.random() * width, y: 0}, 180, true);
-  }
-
-  drawSprites();
-}
-
-function spaceshipMovement() {
-  if (playerIsAlive) {
-    spaceship.addSpeed(controls.xAxis * 2, 0);
-    spaceship.rotation = spaceship.velocity.x * 1.2;
-
-    if (controls.space) {
-      new Missile(spaceship.position, spaceship.rotation, false);
-    }
-    
-    spaceship.overlap(badMissiles, (me, missile) => {
-      spaceship.changeAnimation("die");
-      // spaceship.setSpeed(0);
-      spaceship.rotation = 0;
-      playerIsAlive = false;
-    });
-  }
+  spaceship.update(controls);
+  enemyObjects.forEach(enemy => {
+    enemy.update(spaceship);  
+  });
   
-  if (spaceship.getAnimationLabel() === "die" && spaceship && spaceship.animation.getFrame() === spaceship.animation.getLastFrame()) {
-    spaceship.remove();
-    setTimeout(() => location.reload(), 1500);
-  }
+  drawSprites();
+  gameManager.updateHUD();
 }
 
 function handleControls() {
@@ -100,34 +124,3 @@ function handleControls() {
     controls.space = true;
   }
 }
-
-class Missile {
-  constructor(lanchPosition, direction, fromEnemy, speed = 10) {
-    this.fromEnemy = fromEnemy;
-    this.missile = createSprite(lanchPosition.x, lanchPosition.y , 16, 16);
-    this.missile.setCollider("rectangle", 0, 0, 3, 8);
-    this.missile.addAnimation("basic", fromEnemy ? bad_missile_animation : good_missile_animation);
-    this.missile.scale = SCALE;
-    this.direction = direction;
-    this.missile.rotation = this.direction;
-    this.missile.addSpeed(speed, this.direction - 90);
-    if (fromEnemy) {
-      badMissiles.add(this.missile);
-    } else {
-      goodMissiles.add(this.missile);
-    }
-  }
-}
-
-
-// class Enemy {
-//   constructor(position) {
-//     this.enemy = createSprite(lanchPosition.x, lanchPosition.y , 16, 16);
-//     this.enemy.setCollider("circle", 0, 0, 8);
-//     this.enemy.addAnimation("basic", fromEnemy ? bad_missile_animation : good_missile_animation);
-//     this.enemy.scale = SCALE;
-//     this.direction = direction;
-//     this.enemy.rotation = this.direction;
-//     this.enemy.addSpeed(speed, this.direction - 90);
-//   }
-// }
