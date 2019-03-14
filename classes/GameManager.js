@@ -28,9 +28,9 @@ class GameManager {
     textSize(16);
     if (this.score > Math.max(...this.scoresArray)) {
       text("New Highscore!", width - 30, 80);
-      document.title = this.score + " - New Highscore! — Galaga";
+      document.title = this.score + " - New Highscore! — Malaga";
     } else {
-      document.title = this.score + " — Galaga";
+      document.title = this.score + " — Malaga";
     }
   }
 
