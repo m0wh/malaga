@@ -14,6 +14,7 @@ class GameManager {
       this.canLoseByCrossing = true;
     }
     if (this.canLoseByCrossing && this.score <= 0) {
+      this.score = 0;
       this.endGame(true);
     }
   }

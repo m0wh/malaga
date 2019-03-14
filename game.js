@@ -72,7 +72,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(1280, 720);
 
   spaceship = new Spaceship();
   badMissiles = new Group();
