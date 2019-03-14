@@ -22,10 +22,21 @@
       height: 600px;
       width: 800px;
       display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      flex-direction: row;
+      background-color: rgb(240, 240, 240);
+    }
+
+    section {
+      display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      background-color: rgb(240, 240, 240);
+    }
+
+    img.logo {
+      width: 350px;
     }
 
     .lastscore {
@@ -33,7 +44,7 @@
     }
 
     .lastscore h1 {
-      font-size: 200px;
+      font-size: 160px;
       margin: 0;
       font-weight: 900;
     }
@@ -73,9 +84,12 @@
 </head>
 <body>
   <div class="screen">
-    <div class="lastscore"></div>
-    <a class="play" href="game.html">Play</a>
-    <a class="howto" href="howtoplay.html">Instructions</a>
+    <img src="assets/neue.svg" alt="Malaga" class="logo">
+    <section>
+      <div class="lastscore"></div>
+      <a class="play" href="game.html">Play</a>
+      <a class="howto" href="howtoplay.html">Instructions</a>
+    </section>
   </div>
 
   <script>
